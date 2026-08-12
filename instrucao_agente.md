@@ -63,3 +63,27 @@ $$
 - Cada gráfico fica **logo abaixo do código que o plota**; códigos de plotagem que só existem no notebook são reproduzidos no `.md` (com nota) para o gráfico ter seu código acima.
 - **Não deixe arquivos `.png` soltos na pasta** depois de embutir os gráficos no `.md`.
 - Se algo não estiver claro no PDF, use seu conhecimento do assunto para preencher e deixe uma nota dizendo o que foi preenchido.
+
+---
+
+# Instrução para transformar PDF de LISTA DE EXERCÍCIOS em notebook (`.ipynb`)
+
+Sempre que houver uma **lista de exercícios em PDF** na pasta `lista`, prepare um **notebook `.ipynb`** (mesma pasta do PDF, mesmo nome base do PDF) com este padrão fixo:
+
+## Passos
+
+1. **Leia o PDF completo** da lista (extraia o texto com PyMuPDF). Se expoentes/índices saírem distorcidos na extração (`e-x`, `25x3`), **use os spans com `get_text('dict')`** (tamanho/posição de fonte) para decodificar sobrescritos/subscritos; se necessário, renderize a página em PNG e use OCR. Deixe uma nota se reconstruiu algo.
+2. **Verifique todos os cálculos com Python antes** (`python -c "..."`): valor verdadeiro, aproximação de cada ordem da série e erro relativo percentual $\varepsilon_t$. Confira os números que irão para as respostas.
+3. **Estrutura fixa do notebook** (nesta ordem):
+   - Nó **MD** com o título da lista + cabeçalho (curso, disciplina, professor) + enunciado geral.
+   - Para **cada questão**: um nó **MD** com a questão completa, formatada da forma mais bonita possível, com a **função bem visível** (fórmula em bloco `$$ ... $$` com `\boxed{...}`), os **dados do problema** em lista (ponto-base, ponto de previsão, passo $h$, ordens pedidas) — e, **logo abaixo**, um **nó de código Python em branco** (para o aluno resolver).
+   - **Depois de todas as questões**, um **único nó MD de "Respostas"** com **apenas tabelas diretas do que foi pedido**, uma por questão, no formato **ordem | Taylor (valor aproximado) | erro $\varepsilon_t$** — o mais direto possível, sem explicações longas. Inclua apenas uma linha curta com o **valor verdadeiro** (referência para o erro) e, somente quando o enunciado pedir explicitamente, uma frase de discussão. Nada de passo a passo nem textos no nó de respostas.
+4. **Células de código ficam vazias** (`source: []`) — o aluno deve implementar a solução.
+5. **Formatação obrigatória:** LaTeX com `$$ ... $$`/`$ ... $`, vírgula como separador decimal (`0{,}5`), tabelas para os resultados, `>` para conclusões importantes. **Cuidado em tabelas Markdown:** nunca usar o caractere `|` dentro de fórmulas inline (quebra as colunas) — escrever módulo como `$\vert\varepsilon_t\vert$` em vez de `$|\varepsilon_t|$`.
+6. **Salve** como `NomeDaLista.ipynb` na mesma pasta do PDF. Gere o arquivo via `json` (Python) para não errar o escape de `\` do LaTeX; valide o JSON depois (`json.load`).
+
+---
+
+# Notas rápidas (perguntas frequentes)
+
+- **"Tem euler no numpy?" / "como faço euler em código?"** → a resposta é **`np.e`** (a constante $e \approx 2{,}71828$, disponível em `numpy`). Não existe método de Euler pronto no numpy; quando o aluno pergunta isso, ele quer apenas o nome da constante `np.e`, e NÃO uma implementação completa do método. Não despeje o código inteiro do método de Euler — responda só `np.e` (e, se for o caso, explique brevemente o que é a constante).

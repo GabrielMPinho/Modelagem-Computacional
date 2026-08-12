@@ -22,7 +22,7 @@ Resumindo em 3 ideias:
 ## 2. A fórmula geral
 
 $$
-f(x_{i+1}) \approx f(x_0) + \frac{f'(x_0) * (x - x_0)}{1!} + \frac{f''(x_0) * (x - x_0)^2}{2!} + \dots + \frac{f^{(n)}(x_i) * (x_{i+1}-x_i)^n}{n!}
+f(x_{i+1}) \approx f(x_i) + \frac{f'(x_i) * (x_{i+1} - x_i)}{1!} + \frac{f''(x_i) * (x_{i+1} - x_i)^2}{2!} + \dots + \frac{f^{(n)}(x_i) * (x_{i+1}-x_i)^n}{n!}
 $$
 
 **Significado de cada letra:**
@@ -35,6 +35,30 @@ $$
 | $f'(x_i), f''(x_i), f^{(n)}(x_i)$ | as derivadas (1ª, 2ª, ..., n-ésima) calculadas no ponto inicial |
 | $h = x_{i+1} - x_i$ | a **distância** entre os pontos |
 | $n!$ | fatorial de n (ex.: $3! = 3 \cdot 2 \cdot 1 = 6$) |
+
+### O que é o $x_i$ e o $x_{i+1}$? (do jeito mais simples)
+
+Pense em **duas paradas numa estrada**:
+
+- $x_i$ (lê-se "x de i") → é **a parada onde você já está**. É o ponto em que **você já sabe** o valor da função.
+- $x_{i+1}$ (lê-se "x de i mais um") → é **a parada seguinte**, onde você quer chegar. É o ponto em que **você NÃO sabe** o valor e quer **adivinhar**.
+
+O "i" é só um **número de ordem** (um contador). Se $i = 1$, o ponto seguinte é $i + 1 = 2$; se $i = 5$, o seguinte é $6$; e assim por diante. A série de Taylor serve justamente para **andar do ponto que eu conheço para o ponto seguinte**.
+
+**Exemplo da própria aula:**
+
+| | Ponto | Valor que eu sei? |
+|---|---|---|
+| $x_i$ | $0{,}5$ | Sim — $f(0{,}5) = 2{,}9375$ |
+| $x_{i+1}$ | $1$ | Não — quero descobrir (resposta certa: $3{,}25$) |
+
+E a distância entre as duas paradas é o passo:
+
+$$
+h = x_{i+1} - x_i = 1 - 0{,}5 = 0{,}5
+$$
+
+> **Regra de ouro:** a série sempre **parte do ponto que eu conheço** ($x_i$) e usa a função e as derivadas **nesse ponto** para **prever o valor no ponto seguinte** ($x_{i+1}$). Eu nunca "chuto" a partir do ponto que não conheço.
 
 ---
 
