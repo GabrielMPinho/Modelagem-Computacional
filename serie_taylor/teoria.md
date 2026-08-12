@@ -607,4 +607,264 @@ $$
 
 ## 15. Referências bibliográficas
 
-- CHAPRA, Steven C.; CANALE, Raymond P. **Métodos numéricos para engenharia**. 7ª ed. São Paulo: McGrawHill, 2016.
++
+---
+## 16. Resolução passo a passo em Python
+
+Execute os blocos na ordem. Depois de cada bloco há uma tabela explicando as linhas e o output esperado no Jupyter.
+
+### Bloco 1 — importar as bibliotecas
+
+```python
+from matplotlib import pyplot as plt
+import numpy as np
+import sympy as sp
+```
+
+| Linha | O que faz |
+|---|---|
+| `from matplotlib import pyplot as plt` | importa as ferramentas de gráfico e cria o apelido `plt` |
+| `import numpy as np` | importa o NumPy para cálculos numéricos |
+| `import sympy as sp` | importa o SymPy para derivadas simbólicas |
+
+**Output:** nenhuma saída. As linhas apenas importam as bibliotecas.
+
+### Bloco 2 — escrever a função e as variáveis
+
+```python
+funcao = lambda x: x**3 - 0.75*x**2 + 3
+x0 = 0.5
+x = 1
+h = x - x0
+funcao(x0), funcao(x), h
+```
+
+| Linha | O que faz |
+|---|---|
+| `funcao = lambda x: x**3 - 0.75*x**2 + 3` | define $f(x)=x^3-0{,}75x^2+3$ |
+| `x0 = 0.5` | define o ponto-base |
+| `x = 1` | define o ponto final |
+| `h = x - x0` | calcula o passo $h=1-0{,}5=0{,}5$ |
+| `funcao(x0), funcao(x), h` | mostra os valores calculados |
+
+**Output:**
+
+```text
+(2.9375, 3.25, 0.5)
+```
+
+### Bloco 3 — calcular e preparar as derivadas
+
+```python
+x_simbolico = sp.symbols('x')
+f_simbolica = x_simbolico**3 - 0.75*x_simbolico**2 + 3
+d_f = sp.diff(f_simbolica, x_simbolico)
+d_f2 = sp.diff(d_f, x_simbolico)
+d_f3 = sp.diff(d_f2, x_simbolico)
+print(d_f)
+print(d_f2)
+print(d_f3)
+d_f = lambda x: 3*x**2 - 1.5*x
+d_f2 = lambda x: 6*x - 1.5
+d_f3 = lambda x: 6
+```
+
+| Linha | O que faz |
+|---|---|
+| `x_simbolico = sp.symbols('x')` | cria a variável simbólica $x$ |
+| `f_simbolica = ...` | escreve a função para o SymPy |
+| `d_f = sp.diff(...)` | calcula a primeira derivada |
+| `d_f2 = sp.diff(...)` | calcula a segunda derivada |
+| `d_f3 = sp.diff(...)` | calcula a terceira derivada |
+| `print(d_f)`, `print(d_f2)`, `print(d_f3)` | mostram as três derivadas |
+| `d_f = lambda ...`, `d_f2 = lambda ...`, `d_f3 = lambda ...` | transformam as derivadas em funções numéricas |
+
+**Output:**
+
+```text
+3*x**2 - 1.5*x
+6*x - 1.5
+6
+```
+
+### Bloco 4 — plotar o gráfico inicial
+
+```python
+plt.plot(x0, funcao(x0), 'ro', label='ponto inicial')
+plt.plot(x, funcao(x), 'bd', label='ponto final')
+plt.grid()
+plt.legend()
+plt.xlabel("Eixo X")
+plt.ylabel("F(x)")
+plt.show()
+```
+
+| Linha | O que faz |
+|---|---|
+| `plt.plot(x0, funcao(x0), 'ro', ...)` | desenha o ponto inicial com círculo vermelho |
+| `plt.plot(x, funcao(x), 'bd', ...)` | desenha o ponto final com losango azul |
+| `plt.grid()` | mostra a grade |
+| `plt.legend()` | mostra as legendas |
+| `plt.xlabel(...)` | nomeia o eixo horizontal |
+| `plt.ylabel(...)` | nomeia o eixo vertical |
+| `plt.show()` | exibe o gráfico |
+
+**Output visual:** gráfico com o ponto inicial $(0{,}5,2{,}9375)$ e o ponto final $(1,3{,}25)$.
+
+### Bloco 5 — calcular $T_0$, $E_0$ e plotar
+
+```python
+t0 = funcao(x0)
+e0 = ((funcao(x) - t0) / funcao(x)) * 100
+print(t0)
+print(round(e0, 4))
+plt.plot(x0, funcao(x0), 'ro', label='ponto inicial')
+plt.plot(x, funcao(x), 'bd', label='ponto final')
+plt.plot(x, t0, 'bs', label='Taylor 0')
+plt.grid()
+plt.legend()
+plt.xlabel("Eixo X")
+plt.ylabel("F(x)")
+plt.show()
+```
+
+| Linha | O que faz |
+|---|---|
+| `t0 = funcao(x0)` | calcula $T_0=f(x_0)$ |
+| `e0 = ((funcao(x) - t0) / funcao(x)) * 100` | calcula o erro percentual de $T_0$ |
+| `print(t0)` | mostra a aproximação |
+| `print(round(e0, 4))` | mostra o erro com quatro casas |
+| `plt.plot(...)` | desenha os pontos inicial, final e Taylor 0 |
+| `plt.grid()`, `plt.legend()` | adicionam a grade e as legendas |
+| `plt.xlabel(...)`, `plt.ylabel(...)` | nomeiam os eixos |
+| `plt.show()` | exibe o gráfico |
+
+**Output:**
+
+```text
+2.9375
+9.6154
+```
+
+Visualmente, Taylor 0 aparece em $(1,2{,}9375)$.
+
+### Bloco 6 — calcular $T_1$, $E_1$ e plotar
+
+```python
+t1 = funcao(x0) + (d_f(x0) * h) / 1
+e1 = ((funcao(x) - t1) / funcao(x)) * 100
+print(t1)
+print(round(e1, 4))
+plt.plot(x0, funcao(x0), 'ro', label='ponto inicial')
+plt.plot(x, funcao(x), 'bd', label='ponto final')
+plt.plot(x, t0, 'sb', label='Taylor 0')
+plt.plot(x, t1, 'rs', label='Taylor 1')
+plt.grid()
+plt.xlabel("Eixo X")
+plt.ylabel("F(x)")
+plt.legend()
+plt.show()
+```
+
+| Linha | O que faz |
+|---|---|
+| `t1 = ...` | calcula $T_1=f(x_0)+f'(x_0)h$; `/ 1` é $1!$ |
+| `e1 = ...` | calcula o erro percentual de $T_1$ |
+| `print(t1)` e `print(round(e1, 4))` | mostram a aproximação e o erro |
+| `plt.plot(...)` | desenha os pontos e as previsões Taylor 0 e 1 |
+| `plt.grid()`, `plt.xlabel(...)`, `plt.ylabel(...)` | configuram o gráfico |
+| `plt.legend()` | mostra as legendas |
+| `plt.show()` | exibe o gráfico |
+
+**Output:**
+
+```text
+2.9375
+9.6154
+```
+
+Como $f'(0{,}5)=0$, $T_1$ fica igual a $T_0$.
+
+### Bloco 7 — calcular $T_2$, $E_2$ e plotar
+
+```python
+t2 = t1 + (d_f2(x0) * h**2) / 2
+e2 = ((funcao(x) - t2) / funcao(x)) * 100
+print(t2)
+print(round(e2, 4))
+plt.plot(x0, funcao(x0), 'ro', label='ponto inicial')
+plt.plot(x, funcao(x), 'bd', label='ponto final')
+plt.plot(x, t1, 'gd', label='Taylor 1')
+plt.plot(x, t2, 'rs', label='Taylor 2')
+plt.grid()
+plt.xlabel("Eixo X")
+plt.ylabel("F(x)")
+plt.legend()
+plt.show()
+```
+
+| Linha | O que faz |
+|---|---|
+| `t2 = ...` | soma a $T_1$ o termo $\dfrac{f''(x_0)h^2}{2!}$; `/ 2` é $2!$ |
+| `e2 = ...` | calcula o erro percentual de $T_2$ |
+| `print(t2)` e `print(round(e2, 4))` | mostram a aproximação e o erro |
+| `plt.plot(...)` | desenha o valor verdadeiro e as ordens 1 e 2 |
+| `plt.grid()`, `plt.xlabel(...)`, `plt.ylabel(...)` | configuram o gráfico |
+| `plt.legend()` | mostra as legendas |
+| `plt.show()` | exibe o gráfico |
+
+**Output:**
+
+```text
+3.125
+3.8462
+```
+
+### Bloco 8 — calcular $T_3$, $E_3$ e plotar
+
+```python
+t3 = t2 + (d_f3(x0) * h**3) / 6
+e3 = ((funcao(x) - t3) / funcao(x)) * 100
+print(t3)
+print(round(e3, 4))
+plt.plot(x0, funcao(x0), 'ro', label='ponto inicial')
+plt.plot(x, funcao(x), 'bd', label='ponto final')
+plt.plot(x, t1, 'gd', label='Taylor 1')
+plt.plot(x, t2, 'rs', label='Taylor 2')
+plt.plot(x, t3, 'gs', label='Taylor 3')
+plt.grid()
+plt.xlabel("Eixo X")
+plt.ylabel("F(x)")
+plt.legend()
+plt.show()
+```
+
+| Linha | O que faz |
+|---|---|
+| `t3 = ...` | soma a $T_2$ o termo $\dfrac{f'''(x_0)h^3}{3!}$; `/ 6` é $3!$ |
+| `e3 = ...` | calcula o erro percentual de $T_3$ |
+| `print(t3)` e `print(round(e3, 4))` | mostram a aproximação e o erro |
+| `plt.plot(...)` | desenha o valor verdadeiro e as ordens 1, 2 e 3 |
+| `plt.grid()`, `plt.xlabel(...)`, `plt.ylabel(...)` | configuram o gráfico |
+| `plt.legend()` | mostra as legendas |
+| `plt.show()` | exibe o gráfico |
+
+**Output:**
+
+```text
+3.25
+0.0
+```
+
+Como a função é um polinômio de grau 3, a aproximação de terceira ordem coincide com o valor verdadeiro.
+
+### Resultado final
+
+| Ordem | Aproximação | Erro percentual |
+|---:|---:|---:|
+| 0 | $2{,}9375$ | $9{,}6154\%$ |
+| 1 | $2{,}9375$ | $9{,}6154\%$ |
+| 2 | $3{,}1250$ | $3{,}8462\%$ |
+| 3 | $3{,}2500$ | $0\%$ |
+
+> A aproximação é acumulativa: `T2` usa `T1`, e `T3` usa `T2`. No erro, a diferença inteira deve ficar entre parênteses: `((funcao(x) - t2) / funcao(x)) * 100`.
