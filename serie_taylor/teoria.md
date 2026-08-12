@@ -22,7 +22,7 @@ Resumindo em 3 ideias:
 ## 2. A fórmula geral
 
 $$
-f(x_{i+1}) \approx f(x_i) + \frac{f'(x_i)}{1!}(x_{i+1}-x_i) + \frac{f''(x_i)}{2!}(x_{i+1}-x_i)^2 + \dots + \frac{f^{(n)}(x_i)}{n!}(x_{i+1}-x_i)^n
+f(x_{i+1}) \approx f(x_0) + \frac{f'(x_0) * (x - x_0)}{1!} + \frac{f''(x_0) * (x - x_0)^2}{2!} + \dots + \frac{f^{(n)}(x_i) * (x_{i+1}-x_i)^n}{n!}
 $$
 
 **Significado de cada letra:**
