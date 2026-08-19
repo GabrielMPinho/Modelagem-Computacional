@@ -193,6 +193,8 @@ $$
 em que **o erro é $O(h^2)$ ou $O(\Delta x^2)$** — **melhor** que os $O(\Delta x)$ das fórmulas anteriores!
 
 > A expressão acima é denominada **equação de diferenças finitas centradas**. Por quê? Porque ela **equilibra os dois lados**: usa um ponto atrás $f(x_{i-1})$ e um ponto à frente $f(x_{i+1})$, com $x_i$ no centro.
+>
+> **Atenção ao denominador $2\,\Delta x$:** ele representa os **dois passos** entre $x_{i-1}$ e $x_{i+1}$. Com espaçamento uniforme, $x_{i+1} - x_{i-1} = 2\,\Delta x$. Escrever apenas $\Delta x$ no denominador seria um erro (daria o **dobro** da derivada).
 
 > **Regra de ouro:** quanto mais termos de Taylor forem cancelados (como os pares na centrada), **menor o erro** de truncamento. Por isso a centrada é $O(\Delta x^2)$ e as outras são $O(\Delta x)$.
 
@@ -282,38 +284,40 @@ A vazão é $V'(t) = \dfrac{dV}{dt}$. Como só temos 4 pontos (não temos a fun�
 
 ### Passo a passo (ponto por ponto)
 
-**Ponto $t=0$** (primeiro ponto — só temos ponto à frente → **progressiva**):
+> Como os tempos são igualmente espaçados, temos $\Delta x = h = 1$. Na fórmula **centrada**, o denominador é $2\,\Delta x$ (e não apenas $\Delta x$), pois são **dois passos**: um atrás e um à frente. Nos cálculos abaixo, cada denominador aparece com o valor explícito: $1\,\Delta x = 1\,(t_{i+1} - t_i)$ e $2\,\Delta x = 2\,(t_{i+1} - t_i)$.
+
+**Ponto $t=0$** (primeiro ponto — só temos ponto à frente → **progressiva**, denominador $1\,\Delta x$):
 
 $$
-V'(0) \approx \frac{V(1) - V(0)}{1 - 0} = \frac{1 - 0}{1} = 1{,}0
+V'(0) \approx \frac{V(1) - V(0)}{1\,(1 - 0)} = \frac{1 - 0}{1 \cdot 1} = \frac{1}{1} = 1{,}0
 $$
 
-**Ponto $t=1$** (ponto interno — o melhor é a **centrada**):
+**Ponto $t=1$** (ponto interno — o melhor é a **centrada**, denominador $2\,\Delta x$):
 
 $$
-V'(1) \approx \frac{V(2) - V(0)}{2 - 0} = \frac{2{,}3 - 0}{2} = 1{,}15
+V'(1) \approx \frac{V(2) - V(0)}{2\,(1 - 0)} = \frac{2{,}3 - 0}{2 \cdot 1} = \frac{2{,}3}{2} = 1{,}15
 $$
 
-**Ponto $t=2$** (ponto interno — **centrada**):
+**Ponto $t=2$** (ponto interno — **centrada**, denominador $2\,\Delta x$):
 
 $$
-V'(2) \approx \frac{V(3) - V(1)}{3 - 1} = \frac{3{,}9 - 1}{2} = 1{,}45
+V'(2) \approx \frac{V(3) - V(1)}{2\,(2 - 1)} = \frac{3{,}9 - 1}{2 \cdot 1} = \frac{2{,}9}{2} = 1{,}45
 $$
 
-**Ponto $t=3$** (último ponto — só temos ponto para trás → **regressiva**):
+**Ponto $t=3$** (último ponto — só temos ponto para trás → **regressiva**, denominador $1\,\Delta x$):
 
 $$
-V'(3) \approx \frac{V(3) - V(2)}{3 - 2} = \frac{3{,}9 - 2{,}3}{1} = 1{,}6
+V'(3) \approx \frac{V(3) - V(2)}{1\,(3 - 2)} = \frac{3{,}9 - 2{,}3}{1 \cdot 1} = \frac{1{,}6}{1} = 1{,}6
 $$
 
 ### Tabela-resumo da vazão
 
 | Tempo (s) | Fórmula usada | Cálculo | Vazão (cm³/s) |
 |---|---|---|---|
-| 0 | Progressiva | $\dfrac{1 - 0}{1}$ | 1,0 |
-| 1 | Centrada | $\dfrac{2{,}3 - 0}{2}$ | 1,15 |
-| 2 | Centrada | $\dfrac{3{,}9 - 1}{2}$ | 1,45 |
-| 3 | Regressiva | $\dfrac{3{,}9 - 2{,}3}{1}$ | 1,6 |
+| 0 | Progressiva | $\dfrac{V(1)-V(0)}{1\,(1 - 0)} = \dfrac{1 - 0}{1 \cdot 1}$ | 1,0 |
+| 1 | Centrada | $\dfrac{V(2)-V(0)}{2\,(1 - 0)} = \dfrac{2{,}3 - 0}{2 \cdot 1}$ | 1,15 |
+| 2 | Centrada | $\dfrac{V(3)-V(1)}{2\,(2 - 1)} = \dfrac{3{,}9 - 1}{2 \cdot 1}$ | 1,45 |
+| 3 | Regressiva | $\dfrac{V(3)-V(2)}{1\,(3 - 2)} = \dfrac{3{,}9 - 2{,}3}{1 \cdot 1}$ | 1,6 |
 
 > **Resposta da pergunta da aula:** sim, precisamos da derivação numérica aqui — porque **não existe função $V(t)$**, só pontos medidos.
 

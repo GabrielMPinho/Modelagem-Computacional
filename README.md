@@ -8,6 +8,7 @@ Repositório de estudo da matéria **Modelagem Computacional** (faculdade). Aqui
 |---|---|
 | `Revisao_Python/lista.ipynb` | Exercícios de revisão de Python (Jupyter Notebook) |
 | `serie_taylor/` | Aula 3 — Série de Taylor (PDF, notas `teoria.md` e gráficos) |
+| `derivacao_numerica/` | Aula 4 — Derivação Numérica (PDF e notas `teoria.md`: diferenças finitas progressiva/regressiva/centrada, com cálculos passo a passo e denominadores Δx explícitos) |
 | `instrucao_agente.md` | Instruções para transformar PDFs de aula em material de estudo Markdown |
 
 ## Como usar

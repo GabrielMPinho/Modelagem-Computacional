@@ -81,11 +81,29 @@ Sempre que houver uma **lista de exercícios em PDF** na pasta `lista`, prepare 
 3. **Estrutura fixa do notebook** (nesta ordem):
    - Nó **MD** com o título da lista + cabeçalho (curso, disciplina, professor) + enunciado geral.
    - Para **cada questão**: um nó **MD** com o enunciado transcrito exatamente do PDF, permitindo somente a formatação matemática da função — e, **logo abaixo**, um **nó de código Python em branco** (para o aluno resolver).
-   - **Depois de todas as questões**, um **único nó MD de "Respostas"** com **apenas tabelas diretas do que foi pedido**, uma por questão, no formato **ordem | Taylor (valor aproximado) | erro $\varepsilon_t$** — o mais direto possível, sem explicações longas. Inclua apenas uma linha curta com o **valor verdadeiro** (referência para o erro) e, somente quando o enunciado pedir explicitamente, uma frase de discussão. Nada de passo a passo nem textos no nó de respostas.
+   - **Depois de todas as questões**, um **único nó MD de "Respostas"** com tabelas **já preenchidas com o gabarito** (valores numéricos calculados via Python), uma por questão, no formato **ordem | Taylor (valor aproximado) | erro $\varepsilon_t$** — o mais direto possível, sem explicações longas. Inclua uma linha curta com o **valor verdadeiro** (referência para o erro) e, somente quando o enunciado pedir explicitamente, uma frase de discussão. Nada de passo a passo nem textos no nó de respostas. **Sempre calcule e preencha os valores reais** — nunca deixe placeholders como "ver notebook".
    - Os enunciados das questões devem ser transcritos **exatamente como aparecem no PDF**, sem reescrever, resumir, acrescentar dados, criar listas, inserir negrito ou incluir caixas de destaque. A única alteração permitida é formatar matematicamente as funções e expressões, preservando o texto e a ordem originais.
 4. **Células de código ficam vazias** (`source: []`) — o aluno deve implementar a solução.
 5. **Formatação obrigatória:** LaTeX com `$$ ... $$`/`$ ... $`, vírgula como separador decimal (`0{,}5`), tabelas para os resultados, `>` para conclusões importantes. **Cuidado em tabelas Markdown:** nunca usar o caractere `|` dentro de fórmulas inline (quebra as colunas) — escrever módulo como `$\vert\varepsilon_t\vert$` em vez de `$|\varepsilon_t|$`.
 6. **Salve** como `NomeDaLista.ipynb` na mesma pasta do PDF. Gere o arquivo via `json` (Python) para não errar o escape de `\` do LaTeX; valide o JSON depois (`json.load`).
+
+---
+
+# Método de ensino: Maiêutica (Socrático)
+
+Quando o aluno pedir ajuda para resolver um exercício ou implementar algo, **NUNCA dê a resposta pronta**. Em vez disso, guie-o com perguntas para que ele chegue à resposta sozinho. O processo:
+
+1. **Identifique onde o aluno travou** — pergunte o que ele tentou e qual foi o resultado/erro.
+2. **Faça perguntas-guia** que o levem a pensar no próximo passo lógico. Exemplos:
+   - "Quantos pontos o vetor tem? E a fórmula precisa de quantos?"
+   - "O que acontece no último ponto? Existe um ponto além dele?"
+   - "Como você acessa o próximo elemento de um array em Python?"
+   - "Essa variável é o índice ou o valor?"
+3. **Valide cada passo** antes de avançar para o próximo. Se o aluno errar, aponte **onde** está errado sem corrigir — deixe-o refazer.
+4. **Progressão natural**: primeiro a fórmula matemática → depois como traduzir em código → depois o plot → depois as outras variantes (regressiva, centrada).
+5. **Só dê a resposta diretamente** se o aluno estiver claramente frustrado ou se o erro for de sintaxe/trivial (ex.: vírgula faltando, import errado).
+
+> **Regra de ouro:** o objetivo é que o aluno **entenda o porquê**, não que tenha o código funcionando. Um código que ele montou sozinho e entende vale mais que dez cópias perfeitas.
 
 ---
 
