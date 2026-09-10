@@ -70,6 +70,7 @@ $$
 - **Sempre apague os arquivos `.png` depois de embutir os gráficos no `.md`.** Os gráficos devem ser preferencialmente embutidos em base64 (`data:image/png;base64,...`) no próprio `.md`, nunca deixados como arquivos `.png` soltos na pasta. Se por qualquer motivo um `.png` for gerado (ex.: plot para renderizar), remova-o imediatamente após o embutimento — a pasta não pode conter `.png` ao final.
 - Se algo não estiver claro no PDF, use seu conhecimento do assunto para preencher e deixe uma nota dizendo o que foi preenchido.
 - **Seções conceituais devem incluir aplicação prática:** Quando uma seção apenas classifica ou lista métodos (ex.: "Métodos de Intervalo Fechado"), acrescente um subtópico "Como aplicar" com passos concretos e exemplo usando o problema de referência da aula.
+- **Funções no estilo do aluno:** Em todo `teoria.md`, inclua pelo menos uma função Python completa relacionada ao assunto, escrita no mesmo estilo dos notebooks do aluno: parâmetros simples, variáveis intermediárias com nomes explícitos, `print` dos valores importantes, comentários curtos no fim das linhas explicando a etapa e `return` do resultado. Para métodos iterativos, mostre o laço, o erro, a atualização das variáveis e o resultado final; não substitua a função por uma chamada pronta de biblioteca. Explique a função em uma tabela linha por linha.
 
 ---
 

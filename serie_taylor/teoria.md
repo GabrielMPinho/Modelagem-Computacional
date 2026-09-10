@@ -868,3 +868,51 @@ Como a função é um polinômio de grau 3, a aproximação de terceira ordem co
 | 3 | $3{,}2500$ | $0\%$ |
 
 > A aproximação é acumulativa: `T2` usa `T1`, e `T3` usa `T2`. No erro, a diferença inteira deve ficar entre parênteses: `((funcao(x) - t2) / funcao(x)) * 100`.
+
+---
+
+## 17. Função completa no estilo do notebook
+
+A função abaixo reúne a resolução em uma única função, no mesmo estilo usado no notebook: calcula cada ordem, imprime os valores para acompanhar a conta, calcula o erro e retorna os resultados.
+
+```python
+def taylor(x0, x):
+   f = lambda x: x**3 - 0.75*x**2 + 3
+   df = lambda x: 3*x**2 - 1.5*x
+   df2 = lambda x: 6*x - 1.5
+   df3 = lambda x: 6
+   h = x - x0 # Calcula o tamanho do passo
+   valor_verdadeiro = f(x) # Calcula o valor conhecido no ponto final
+
+   t0 = f(x0) # Calcula a aproximacao de ordem 0
+   erro0 = abs(((valor_verdadeiro - t0) / valor_verdadeiro) * 100) # Calcula o erro
+   print(f"T0 = {t0} | Erro = {erro0}%")
+
+   t1 = t0 + (df(x0) * h) # Soma o termo da primeira derivada
+   erro1 = abs(((valor_verdadeiro - t1) / valor_verdadeiro) * 100) # Calcula o erro
+   print(f"T1 = {t1} | Erro = {erro1}%")
+
+   t2 = t1 + (df2(x0) * h**2) / 2 # Soma o termo da segunda derivada
+   erro2 = abs(((valor_verdadeiro - t2) / valor_verdadeiro) * 100) # Calcula o erro
+   print(f"T2 = {t2} | Erro = {erro2}%")
+
+   t3 = t2 + (df3(x0) * h**3) / 6 # Soma o termo da terceira derivada
+   erro3 = abs(((valor_verdadeiro - t3) / valor_verdadeiro) * 100) # Calcula o erro
+   print(f"T3 = {t3} | Erro = {erro3}%")
+
+   return t0, t1, t2, t3
+
+taylor(0.5, 1)
+```
+
+| Linha | O que faz |
+|---|---|
+| `def taylor(x0, x):` | cria a função e recebe o ponto inicial e o ponto final |
+| `f`, `df`, `df2`, `df3` | define a função e suas derivadas como funções que podem ser chamadas |
+| `h = x - x0` | calcula a distância entre os pontos |
+| `t0`, `t1`, `t2`, `t3` | calcula as aproximações de forma acumulativa |
+| `erro0`, `erro1`, `erro2`, `erro3` | calcula o erro relativo percentual de cada ordem |
+| `print(...)` | mostra cada aproximação e seu erro |
+| `return ...` | devolve todas as aproximações calculadas |
+
+**Output esperado:** `T0 = 2.9375`, `T1 = 2.9375`, `T2 = 3.125` e `T3 = 3.25`, com erros de aproximadamente `9.6154%`, `9.6154%`, `3.8462%` e `0%`.

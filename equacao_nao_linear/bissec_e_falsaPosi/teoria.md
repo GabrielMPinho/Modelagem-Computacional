@@ -599,3 +599,62 @@ print(f"f(raiz) = {f(raiz):.4f}")          # f = 25.2275
 - Chapra, S. C. & Canale, R. P. *Métodos numéricos para engenharia*. McGraw-Hill.
 - Material de aula: Aulas 5 e 6 -- Bissecção e Falsa Posição, Prof. Gisele Tessari Santos, D.Sc.
 - Documentação NumPy/SciPy: https://docs.scipy.org/
+
+---
+
+## 17. Funções manuais no estilo do notebook
+
+As funções abaixo mostram a implementação manual dos dois métodos no mesmo estilo usado no notebook: intervalo recebido por parâmetro, variáveis `xl`, `xu`, `xr`, `print` de cada iteração, comentários explicando as atualizações, cálculo do erro e retorno do resultado.
+
+```python
+def bissec(xl, xu):
+    xr = (xl + xu)/2 # Calcula o primeiro xr
+    erro = 10 # So p iniciar o loop
+
+    while erro >= 1: # Enquanto o erro for maior do que 1%
+        xr_antigo = xr # Guarda o xr anterior para calcular o erro
+        if f(xr) * f(xl) < 0: # Valida em qual metade a raiz ficou
+            xu = xr # Atualiza o limite superior
+        else:
+            xl = xr # Atualiza o limite inferior
+        xr = (xl + xu)/2 # Atualiza o ponto medio
+        erro = abs(((xr - xr_antigo)/xr) * 100) # Calcula o erro aproximado
+        print(f"xl = {xl} | xu = {xu} | xr = {xr} | Erro = {erro}%")
+
+    return xr, erro
+
+
+def fals_posi(xl, xu):
+    xr = xu - ((f(xu) * (xl - xu)) / (f(xl) - f(xu))) # Calcula o primeiro xr
+    erro = 10 # So p iniciar o loop
+
+    while erro >= 1: # Enquanto o erro for maior do que 1%
+        xr_antigo = xr # Guarda o xr anterior para calcular o erro
+        if f(xr) * f(xl) < 0: # Valida em qual metade a raiz ficou
+            xu = xr # Atualiza o limite superior
+        else:
+            xl = xr # Atualiza o limite inferior
+        xr = xu - ((f(xu) * (xl - xu)) / (f(xl) - f(xu))) # Atualiza o ponto pela reta
+        erro = abs(((xr - xr_antigo)/xr) * 100) # Calcula o erro aproximado
+        print(f"xl = {xl} | xu = {xu} | xr = {xr} | Erro = {erro}%")
+
+    return xr, erro
+
+bisseccao = bissec(1, 2)
+falsa_posicao = fals_posi(1, 2)
+print(f"Bisseccao = {bisseccao}")
+print(f"Falsa posicao = {falsa_posicao}")
+```
+
+| Trecho | O que faz |
+|---|---|
+| `xr = (xl + xu)/2` | calcula o ponto médio da bissecção |
+| `xr = xu - ...` | calcula o ponto da falsa posição pela interpolação linear |
+| `xr_antigo = xr` | guarda a estimativa anterior |
+| `if f(xr) * f(xl) < 0` | verifica, pelos sinais, qual intervalo ainda cerca a raiz |
+| `xl = xr` ou `xu = xr` | descarta a metade que não contém a mudança de sinal |
+| `erro = abs(...)` | calcula o erro relativo percentual entre duas estimativas |
+| `print(...)` | mostra os valores da iteração para acompanhar a resolução |
+| `return xr, erro` | devolve a raiz aproximada e o erro final |
+
+Com o problema do tanque e o intervalo `[1, 2]`, a bissecção fornece aproximadamente `xr = 1.4609375` e a falsa posição fornece aproximadamente `xr = 1.4664372` usando o critério de erro menor que `1%`. A raiz de referência é aproximadamente `H = 1.4658946`.

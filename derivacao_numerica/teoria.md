@@ -702,3 +702,44 @@ plt.show()
 | `plt.show()` | exibe o gráfico |
 
 **Output visual:** gráfico igual ao do PDF — curva de $f(x)$ entre $0{,}14$ e $0{,}48$, com as derivadas numéricas abaixo de zero; os pontos verdes ($\Delta x=1$) ficam mais próximos da curva de $f(x)$ do que os x vermelhos ($\Delta x=2$), mostrando que **diminuir $\Delta x$ melhora a aproximação da derivada**.
+
+---
+
+## 15. Função completa no estilo do notebook
+
+A função abaixo aplica as três diferenças finitas de primeira ordem em todos os pontos disponíveis. Ela mantém o estilo usado no notebook: variáveis intermediárias explícitas, comentários curtos, `print` para acompanhar os resultados e `return` no final.
+
+```python
+def derivacao(x, y):
+    derivada = np.zeros(len(x)) # Cria o vetor que vai guardar as derivadas
+
+    derivada[0] = (y[1] - y[0]) / (x[1] - x[0]) # Usa diferenca progressiva no primeiro ponto
+
+    for i in range(1, len(x) - 1):
+        derivada[i] = (y[i + 1] - y[i - 1]) / (x[i + 1] - x[i - 1]) # Usa diferenca centrada nos pontos internos
+
+    derivada[-1] = (y[-1] - y[-2]) / (x[-1] - x[-2]) # Usa diferenca regressiva no ultimo ponto
+
+    print(f"x = {x}")
+    print(f"y = {y}")
+    print(f"Derivada = {derivada}")
+
+    return derivada
+
+x = np.array([0, 1, 2, 3])
+y = np.array([0, 1, 2.3, 3.9])
+derivacao(x, y)
+```
+
+| Linha | O que faz |
+|---|---|
+| `def derivacao(x, y):` | cria a função e recebe os pontos e os valores da função |
+| `np.zeros(len(x))` | cria um vetor vazio para armazenar as derivadas |
+| `derivada[0]` | calcula o primeiro ponto pela diferença progressiva |
+| `for i in range(...)` | percorre os pontos internos |
+| `derivada[i]` | calcula os pontos internos pela diferença centrada |
+| `derivada[-1]` | calcula o último ponto pela diferença regressiva |
+| `print(...)` | mostra os dados e o vetor de derivadas |
+| `return derivada` | devolve o resultado para continuar usando no notebook |
+
+**Output esperado:** `Derivada = [1.0, 1.15, 1.45, 1.6]`.
