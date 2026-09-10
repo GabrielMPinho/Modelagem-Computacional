@@ -10,7 +10,8 @@ Você vai me ajudar a transformar o **PDF de uma aula** em um arquivo **Markdown
 4. **Pegue todos os exemplos** e explique **linha por linha, passo a passo**, mostrando cada cálculo substituído pelos números e o resultado final.
 5. **Códigos Python: reproduza EXATAMENTE como aparecem no PDF.** Não "melhore", não reformate, não mude nomes de variáveis, espaçamento, importações ou marcadores (`'ro'`, `'bd'`, etc.). Se o código do PDF estiver como imagem e o texto vier distorcido na extração, use OCR para recuperá-lo (ex.: PyMuPDF para extrair a imagem + OCR do Windows via `winrt-Windows.Media.Ocr`, ou `rapidocr_onnxruntime`), compare com o contexto matemático e deixe uma nota se reconstruiu algo. Você apenas **explica** cada linha do código (em tabela "linha por linha"), sem alterá-lo.
 6. **Verifique todos os cálculos** com Python antes de escrever (ex.: `python -c "..."`) para garantir que os números estão corretos.
-6. **Formatação obrigatória:**
+7. **Explique conceitos teóricos com aplicação prática:** Quando um tópico for apenas分类 (ex.: "Métodos de Intervalo Fechado"), não apenas liste os métodos. Explique **como aplicá-los** na prática, com passos claros e exemplos concretos do problema estudado. O aluno deve entender o fluxo completo: teoria → escolha dos parâmetros → aplicação → resultado.
+8. **Formatação obrigatória:**
    - Fórmulas em **LaTeX** com `$$ ... $$` (bloco) e `$ ... $` (inline).
    - **Tabelas** para resumos de derivadas, valores calculados, ordens da série e erros.
    - Código Python em blocos ```python ... ``` **idênticos ao PDF**, com tabela explicando **linha por linha** o que cada comando faz.
@@ -30,8 +31,8 @@ Você vai me ajudar a transformar o **PDF de uma aula** em um arquivo **Markdown
 2. O que é o assunto (explicação simples)
 3. Fórmula(s) geral(is) com legenda das letras
 4. Entendendo cada termo/parte
-5. Exemplos principais — passo a passo (pontos escolhidos, derivadas, cálculos de cada ordem, erros)
-6. Códigos em Python — explicados linha por linha
+5. **Como aplicar o método** (passos práticos, não apenas classificação)
+6. **Código Python imediatamente após a teoria de cada método** — não separar em seções distantes. O fluxo ideal para cada método é: teoria → algoritmo → código Python → gráfico → exemplo passo a passo
 7. Gráficos do PDF/notebook **imediatamente abaixo do código que os gera** (imagens embutidas em base64; `.png` intermediários apagados da pasta)
 8. Como calcular o erro no Python (código + explicação, se o PDF prevê erro)
 9. Tabelas-resumo com os resultados e erros
@@ -63,10 +64,12 @@ $$
 
 - NUNCA pule um exemplo do PDF.
 - A **teoria** pode ser "mastigada"/reescrita em linguagem simples; os **códigos Python NÃO podem ser alterados** — devem sair idênticos ao PDF.
+- **Explique cada método de forma intuitiva, primeiro.** Antes de qualquer fórmula ou algoritmo, explique a **ideia por trás** do método em linguagem simples, com analogia e o raciocínio de "cortar por partes". Prefira frases de **sinais** ("os sinais são opostos/iguais", "$x_R$ veio positivo/negativo") em vez de produtos algébricos ($x \cdot y > 0$). O aluno deve entender o **"porquê"** do passo, não só decorar o teste. Use o método da Bissecção como modelo de explicacão: (1) você tem dois pontos que cercam a raiz, um abaixo e um acima; (2) calcula o ponto médio; (3) descarta a metade que não contém a raiz comparando sinais; (4) repete, sempre cortando o intervalo pela metade, até a precisão desejada.
 - O arquivo deve ser **completo e autocontido**: dá para estudar só pelo `.md`, sem abrir o PDF.
 - Cada gráfico fica **logo abaixo do código que o plota**; códigos de plotagem que só existem no notebook são reproduzidos no `.md` (com nota) para o gráfico ter seu código acima.
-- **Não deixe arquivos `.png` soltos na pasta** depois de embutir os gráficos no `.md`.
+- **Sempre apague os arquivos `.png` depois de embutir os gráficos no `.md`.** Os gráficos devem ser preferencialmente embutidos em base64 (`data:image/png;base64,...`) no próprio `.md`, nunca deixados como arquivos `.png` soltos na pasta. Se por qualquer motivo um `.png` for gerado (ex.: plot para renderizar), remova-o imediatamente após o embutimento — a pasta não pode conter `.png` ao final.
 - Se algo não estiver claro no PDF, use seu conhecimento do assunto para preencher e deixe uma nota dizendo o que foi preenchido.
+- **Seções conceituais devem incluir aplicação prática:** Quando uma seção apenas classifica ou lista métodos (ex.: "Métodos de Intervalo Fechado"), acrescente um subtópico "Como aplicar" com passos concretos e exemplo usando o problema de referência da aula.
 
 ---
 
@@ -110,3 +113,8 @@ Quando o aluno pedir ajuda para resolver um exercício ou implementar algo, **NU
 # Notas rápidas (perguntas frequentes)
 
 - **"Tem euler no numpy?" / "como faço euler em código?"** → a resposta é **`np.e`** (a constante $e \approx 2{,}71828$, disponível em `numpy`). Não existe método de Euler pronto no numpy; quando o aluno pergunta isso, ele quer apenas o nome da constante `np.e`, e NÃO uma implementação completa do método. Não despeje o código inteiro do método de Euler — responda só `np.e` (e, se for o caso, explique brevemente o que é a constante).
+
+- **Formatação matemática no chat vs. no arquivo `.md`:** Nos arquivos `.md` (como `teoria.md`), usar LaTeX com `$...$` (inline) e `$$...$$` (bloco). Nas **mensagens de chat** (respostas no terminal), usar **símbolos Unicode** em vez de sintaxe LaTeX — porque o terminal não renderiza LaTeX. Exemplos:
+  - LaTeX no `.md`: `$f(x_L) \cdot f(x_R) = 0$`
+  - Unicode no chat: f(x_L) · f(x_R) = 0
+  - Símbolos úteis: · (multiplicação), ≠ (diferente), ≈ (aproximado), ≤, ≥, →, ↓, ↑, ², ³, ₀, ₁, ₂, ₃
