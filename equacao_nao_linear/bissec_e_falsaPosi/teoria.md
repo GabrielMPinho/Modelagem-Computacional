@@ -658,3 +658,35 @@ print(f"Falsa posicao = {falsa_posicao}")
 | `return xr, erro` | devolve a raiz aproximada e o erro final |
 
 Com o problema do tanque e o intervalo `[1, 2]`, a bissecção fornece aproximadamente `xr = 1.4609375` e a falsa posição fornece aproximadamente `xr = 1.4664372` usando o critério de erro menor que `1%`. A raiz de referência é aproximadamente `H = 1.4658946`.
+
+---
+
+## Como pode ser cobrado
+
+### Encontrar os limites $x_L$ e $x_U$
+
+Se o enunciado não fornecer os limites, faça testes ou observe o gráfico até encontrar dois valores com mudança de sinal:
+
+$$
+f(x_L)f(x_U)<0.
+$$
+
+Por exemplo, no problema do tanque, `xL = 1` e `xU = 2` funcionam porque a função tem sinais opostos nesses pontos. Os limites não precisam ser os únicos possíveis; qualquer intervalo que cerque a raiz e respeite a mudança de sinal é válido.
+
+### Escolher o erro
+
+Se a questão disser erro de `1%`, o erro relativo aproximado entre duas estimativas é:
+
+```python
+erro = abs((xr - xr_antigo) / xr) * 100
+```
+
+Nesse caso, pare quando `erro <= 1`. Se o enunciado pedir resíduo, use `abs(f(xr))`; nesse caso, pare comparando diretamente com a tolerância do resíduo.
+
+### Comparar bissecção e falsa posição
+
+Os dois métodos mantêm um intervalo com mudança de sinal. A bissecção usa sempre o ponto médio, enquanto a falsa posição usa a interseção da reta entre os extremos com o eixo $x$. A falsa posição costuma chegar mais rápido, mas pode ficar presa quando um dos extremos quase não se move. A bissecção é mais previsível, pois reduz o intervalo pela metade a cada iteração.
+
+### Atenção ao que está sendo pedido
+
+Bissecção e falsa posição resolvem $f(x)=0$. Se a pergunta pedir um ponto de mínimo ou máximo, esses métodos não devem ser aplicados diretamente a $f$; é necessário procurar uma raiz de $f'$ e classificar o ponto usando $f''$.

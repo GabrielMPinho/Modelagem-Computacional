@@ -743,3 +743,35 @@ derivacao(x, y)
 | `return derivada` | devolve o resultado para continuar usando no notebook |
 
 **Output esperado:** `Derivada = [1.0, 1.15, 1.45, 1.6]`.
+
+---
+
+## Como pode ser cobrado
+
+### Escolha do passo $h$
+
+Nas diferenças finitas, $h$ é a distância usada para consultar a função perto de $x$:
+
+$$
+f'(x) \approx \frac{f(x+h)-f(x-h)}{2h},
+\qquad
+f''(x) \approx \frac{f(x+h)-2f(x)+f(x-h)}{h^2}.
+$$
+
+Um valor como `h = 0.0001` é um passo pequeno e prático. Ele reduz o erro de truncamento, mas não deve ser diminuído indefinidamente, pois passos muito pequenos aumentam os efeitos de arredondamento e cancelamento numérico. Se o enunciado fornecer $h$, use o valor fornecido; caso contrário, declare o valor adotado e mantenha-o fixo durante as iterações.
+
+### Newton para ponto de mínimo ou máximo
+
+Para encontrar um extremo de $f$, não se procura $f(x)=0$. Procura-se um ponto crítico:
+
+$$
+f'(x)=0.
+$$
+
+Aplicando Newton à função $f'(x)$, a atualização é:
+
+$$
+x_{i+1}=x_i-\frac{f'(x_i)}{f''(x_i)}.
+$$
+
+Quando as derivadas são aproximadas numericamente, substitua $f'$ e $f''$ pelas fórmulas centradas acima. Depois, classifique o ponto: $f''(x)>0$ indica mínimo local e $f''(x)<0$ indica máximo local.

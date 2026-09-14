@@ -579,3 +579,57 @@ print(f"Fator de atrito = {xi}")
 - CHAPRA, Steven C.; CANALE, Raymond P. *Métodos numéricos para engenharia*.
 - Aula 7 e 8 — Soluções de Equações Não Lineares — Métodos de Intervalo Aberto, Prof.ª Gisele Tessari Santos, D.Sc.
 - Documentação SciPy: `scipy.optimize.newton`.
+
+---
+
+## Como pode ser cobrado
+
+### Determinar uma raiz
+
+Se o enunciado pedir uma raiz, maior raiz ou menor raiz, resolva:
+
+$$
+f(x)=0.
+$$
+
+Para Newton, use $x_{i+1}=x_i-f(x_i)/f'(x_i)$. Para a Secante, use dois chutes, $x_{i-1}$ e $x_i$, e retorne o último $x_{i+1}$ calculado quando o critério de parada for atingido. A escolha dos chutes importa: com várias raízes, chutes diferentes podem convergir para raízes diferentes.
+
+### Determinar um ponto de mínimo ou máximo
+
+Se o enunciado pedir um extremo de $f$, procure primeiro um ponto crítico:
+
+$$
+f'(x)=0.
+$$
+
+Newton deve ser aplicado à derivada, usando a segunda derivada:
+
+$$
+x_{i+1}=x_i-\frac{f'(x_i)}{f''(x_i)}.
+$$
+
+Depois, verifique $f''(x)>0$ para mínimo ou $f''(x)<0$ para máximo. Portanto, não use $f(x)/f'(x)$ nesse caso, pois essa fórmula procura uma raiz de $f$, e não um ponto crítico.
+
+### Derivadas por diferenças finitas
+
+Se a questão pedir aproximação por diferenças finitas, não use `sp.diff()`. Para um passo $h$ declarado no enunciado ou escolhido e informado na resolução, use:
+
+```python
+def derivada_1(x, h=0.0001):
+    return (f(x + h) - f(x - h)) / (2 * h)
+
+def derivada_2(x, h=0.0001):
+    return (f(x + h) - 2*f(x) + f(x - h)) / h**2
+```
+
+No mínimo, a atualização passa a ser `xi_prox = xi - derivada_1(xi) / derivada_2(xi)`.
+
+### Critérios de erro
+
+Use a fórmula especificada no enunciado. Se ele pedir erro percentual entre aproximações, use:
+
+$$
+\varepsilon_a=\left|\frac{x_{i+1}-x_i}{x_{i+1}}\right|100.
+$$
+
+Se pedir resíduo, use $|f(x_{i+1})|$. Eles são critérios diferentes e não devem ser confundidos.

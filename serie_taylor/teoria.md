@@ -916,3 +916,29 @@ taylor(0.5, 1)
 | `return ...` | devolve todas as aproximações calculadas |
 
 **Output esperado:** `T0 = 2.9375`, `T1 = 2.9375`, `T2 = 3.125` e `T3 = 3.25`, com erros de aproximadamente `9.6154%`, `9.6154%`, `3.8462%` e `0%`.
+
+---
+
+## Como pode ser cobrado
+
+### Escolha de $h$
+
+Na Série de Taylor, $h=x_{i+1}-x_i$ é a distância entre o ponto conhecido e o ponto que se deseja aproximar. Ele não é escolhido arbitrariamente quando o enunciado já fornece os dois pontos. Quanto menor for $h$, em geral melhor será a aproximação local, mas a escolha também deve respeitar os dados e a escala do problema.
+
+### Ordem da aproximação
+
+Use a ordem pedida no enunciado. A aproximação de primeira ordem usa até $f'(x_i)$; a de segunda ordem acrescenta o termo com $f''(x_i)$; e assim por diante. Para um polinômio de grau $n$, os termos de ordem superior a $n$ desaparecem.
+
+### Como calcular o erro
+
+Se o valor verdadeiro for conhecido, calcule o erro verdadeiro relativo:
+
+$$
+\varepsilon_t=\left|\frac{\text{valor verdadeiro}-\text{aproximação}}{\text{valor verdadeiro}}\right|100.
+$$
+
+Se o valor verdadeiro não for conhecido, compare aproximações sucessivas ou informe que só é possível calcular um erro aproximado. Não confunda esse erro com o resíduo $|f(x)|$ de um problema de raízes.
+
+### Relação com derivação numérica
+
+A Série de Taylor é a base para obter as fórmulas de diferenças finitas. Ao truncar a série, surge o erro de truncamento; ao usar um passo numérico muito pequeno, também podem aparecer erros de arredondamento. Por isso, sempre informe o valor de $h$ ou de $\Delta x$ adotado.
